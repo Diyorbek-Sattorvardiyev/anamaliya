@@ -1,0 +1,136 @@
+:root {
+  --bg: #06121d;
+  --panel: #0d2131;
+  --panel-border: #15364d;
+  --text: #edf6ff;
+  --muted: #9ec3df;
+  --accent: #22d3ee;
+  --warn: #f59e0b;
+  --ok: #22c55e;
+  --danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1000px 600px at 10% -10%, rgba(34, 211, 238, 0.2), transparent 65%),
+    radial-gradient(900px 500px at 110% 10%, rgba(245, 158, 11, 0.16), transparent 60%),
+    var(--bg);
+}
+
+.container {
+  width: min(1100px, 94vw);
+  margin: 28px auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+button {
+  background: linear-gradient(135deg, #0891b2, #0ea5e9);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.card,
+.chart-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  border: 1px solid var(--panel-border);
+  background-color: var(--panel);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.card h2 {
+  margin: 8px 0 0;
+  font-size: 1.4rem;
+}
+
+.status-normal {
+  color: var(--ok);
+}
+
+.status-anomaly {
+  color: var(--danger);
+}
+
+.charts {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+}
+
+.chart-card h3 {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.chart-card {
+  min-height: 340px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 280px !important;
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 540px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

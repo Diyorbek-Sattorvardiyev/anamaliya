@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Anomaly Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Network Anomaly Dashboard</h1>
+      <button id="retrain-btn">Retrain Model</button>
+    </header>
+
+    <section class="cards">
+      <article class="card">
+        <p class="label">Packet Rate</p>
+        <h2 id="packet-rate">-</h2>
+      </article>
+      <article class="card">
+        <p class="label">Latency</p>
+        <h2 id="latency">-</h2>
+      </article>
+      <article class="card">
+        <p class="label">Error Rate</p>
+        <h2 id="error-rate">-</h2>
+      </article>
+      <article class="card">
+        <p class="label">Status</p>
+        <h2 id="status" class="status-normal">Normal</h2>
+      </article>
+    </section>
+
+    <section class="charts">
+      <article class="chart-card">
+        <h3>Traffic and Latency Trend</h3>
+        <canvas id="trafficChart"></canvas>
+      </article>
+      <article class="chart-card">
+        <h3>Anomaly Flags</h3>
+        <canvas id="anomalyChart"></canvas>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const packetRateEl = document.getElementById("packet-rate");
+    const latencyEl = document.getElementById("latency");
+    const errorRateEl = document.getElementById("error-rate");
+    const statusEl = document.getElementById("status");
+    const retrainBtn = document.getElementById("retrain-btn");
+
+    const trafficCtx = document.getElementById("trafficChart").getContext("2d");
+    const anomalyCtx = document.getElementById("anomalyChart").getContext("2d");
+
+    const trafficChart = new Chart(trafficCtx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Packet Rate",
+            data: [],
+            borderColor: "#22d3ee",
+            backgroundColor: "rgba(34, 211, 238, 0.18)",
+            yAxisID: "y",
+            tension: 0.3,
+            fill: true
+          },
+          {
+            label: "Latency",
+            data: [],
+            borderColor: "#f59e0b",
+            backgroundColor: "rgba(245, 158, 11, 0.12)",
+            yAxisID: "y1",
+            tension: 0.3,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            position: "left",
+            title: { display: true, text: "Packet Rate" }
+          },
+          y1: {
+            position: "right",
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: "Latency (ms)" }
+          }
+        }
+      }
+    });
+
+    const anomalyChart = new Chart(anomalyCtx, {
+      type: "bar",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Anomaly",
+            data: [],
+            backgroundColor: []
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1,
+            ticks: {
+              callback: (value) => value === 1 ? "Yes" : "No"
+            }
+          }
+        }
+      }
+    });
+
+    function setStatus(isAnomaly) {
+      if (isAnomaly) {
+        statusEl.textContent = "Anomaly";
+        statusEl.className = "status-anomaly";
+      } else {
+        statusEl.textContent = "Normal";
+        statusEl.className = "status-normal";
+      }
+    }
+
+    async function fetchMetrics() {
+      const response = await fetch("/api/metrics");
+      const data = await response.json();
+      const points = data.points;
+      const latest = data.summary.latest;
+
+      if (!latest) return;
+
+      packetRateEl.textContent = `${latest.packet_rate} pkt/s`;
+      latencyEl.textContent = `${latest.latency} ms`;
+      errorRateEl.textContent = `${(latest.error_rate * 100).toFixed(2)} %`;
+      setStatus(latest.anomaly);
+
+      const labels = points.map((p) => p.timestamp);
+      const packetSeries = points.map((p) => p.packet_rate);
+      const latencySeries = points.map((p) => p.latency);
+      const anomalySeries = points.map((p) => p.anomaly ? 1 : 0);
+
+      trafficChart.data.labels = labels;
+      trafficChart.data.datasets[0].data = packetSeries;
+      trafficChart.data.datasets[1].data = latencySeries;
+      trafficChart.update();
+
+      anomalyChart.data.labels = labels;
+      anomalyChart.data.datasets[0].data = anomalySeries;
+      anomalyChart.data.datasets[0].backgroundColor = anomalySeries.map((v) => v ? "#ef4444" : "#16a34a");
+      anomalyChart.update();
+    }
+
+    retrainBtn.addEventListener("click", async () => {
+      retrainBtn.disabled = true;
+      retrainBtn.textContent = "Retraining...";
+      try {
+        await fetch("/api/retrain", { method: "POST" });
+        await fetchMetrics();
+      } finally {
+        retrainBtn.disabled = false;
+        retrainBtn.textContent = "Retrain Model";
+      }
+    });
+
+    fetchMetrics();
+    setInterval(fetchMetrics, 3000);
+  </script>
+</body>
+</html>

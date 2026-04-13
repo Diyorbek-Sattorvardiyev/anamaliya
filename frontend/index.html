@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetSentinel AI Kuzatuv Paneli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2308161d'/%3E%3Cpath d='M16 42h32M20 32h24M24 22h16' stroke='%2367f7d4' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='18' cy='42' r='5' fill='%23ffb84d'/%3E%3Ccircle cx='44' cy='32' r='5' fill='%236ed3ff'/%3E%3Ccircle cx='30' cy='22' r='5' fill='%23ff7d66'/%3E%3C/svg%3E" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="bg-noise"></div>
+  <div class="bg-glow"></div>
+  <div class="grid-lines"></div>
+  <main class="shell">
+    <section id="landingContent" class="landing-content">
+    <header class="topbar reveal">
+      <div class="topbar-brand">
+        <div class="topbar-mark">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <strong>NetSentinel AI</strong>
+          <span>Real vaqt tarmoq himoyasi qatlami</span>
+        </div>
+      </div>
+
+      <nav class="topbar-nav">
+        <a href="#capabilities">Imkoniyatlar</a>
+        <a href="#preview">Ko‘rinish</a>
+        <a href="#dashboard">Panel</a>
+      </nav>
+
+      <div class="topbar-badge">
+        <span class="signal-dot"></span>
+        Xavf kuzatuvi faol
+      </div>
+    </header>
+
+    <section class="auth-stage reveal">
+      <div class="auth-stage-copy">
+        <span class="section-kicker">Kirish muhiti</span>
+        <h2>Korxona darajasidagi kirish va ro‘yxatdan o‘tish oynalari</h2>
+        <p>
+          NetSentinel platformasiga kirish jarayoni alohida autentifikatsiya oynalarida tashkil etilgan. Har bir oyna
+          foydalanuvchiga aniq vazifa beradi: mavjud operator tizimga kiradi, yangi operator esa ro‘yxatdan o‘tadi.
+        </p>
+        <div class="auth-stage-points">
+          <article class="auth-stage-point">
+            <strong>Xavfsiz kirish</strong>
+            <span>Amaldagi foydalanuvchilar uchun alohida avtorizatsiya oynasi.</span>
+          </article>
+          <article class="auth-stage-point">
+            <strong>Yangi operator yaratish</strong>
+            <span>Tizimga yangi foydalanuvchini qo‘shish uchun mustaqil ro‘yxatdan o‘tish oynasi.</span>
+          </article>
+          <article class="auth-stage-point">
+            <strong>To‘g‘ridan-to‘g‘ri dashboard</strong>
+            <span>Muvaffaqiyatli yakunlangach foydalanuvchi darhol boshqaruv paneliga o‘tadi.</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="auth-desktop">
+        <div class="auth-windows">
+          <section id="auth-panel-anchor" class="auth-window auth-window-login">
+            <div class="auth-window-top">
+              <span class="window-title">Kirish oynasi</span>
+              <strong>Vakolatli foydalanuvchi</strong>
+              <p class="auth-window-text">Mavjud operatorlar email manzil va parol orqali xavfsiz tarzda tizimga kiradi.</p>
+            </div>
+            <form id="loginForm" class="auth-form auth-form-static">
+              <label>
+                <span>Email manzil</span>
+                <input id="email" value="admin@netsentinel.local" type="email" placeholder="you@company.com" />
+              </label>
+              <label>
+                <span>Parol</span>
+                <input id="password" value="Admin12345" type="password" placeholder="Parolingiz" />
+              </label>
+              <button id="loginBtn" class="primary-btn" type="submit">Tizimga kirish</button>
+              <p class="helper-text">Namuna administrator: `admin@netsentinel.local` / `Admin12345`</p>
+            </form>
+          </section>
+
+          <section class="auth-window auth-window-register">
+            <div class="auth-window-top">
+              <span class="window-title">Ro‘yxatdan o‘tish oynasi</span>
+              <strong>Yangi operator yaratish</strong>
+              <p class="auth-window-text">Yangi foydalanuvchi ma'lumotlari kiritilgach, tizim akkaunt yaratadi va foydalanuvchini panelga yo‘naltiradi.</p>
+            </div>
+            <form id="registerForm" class="auth-form auth-form-static">
+              <label>
+                <span>To‘liq ism</span>
+                <input id="registerName" type="text" placeholder="Ismingiz" />
+              </label>
+              <label>
+                <span>Email manzil</span>
+                <input id="registerEmail" type="email" placeholder="you@company.com" />
+              </label>
+              <label>
+                <span>Parol</span>
+                <input id="registerPassword" type="password" placeholder="Kamida 8 ta belgi" />
+              </label>
+              <button id="registerBtn" class="primary-btn accent-btn" type="submit">Ro‘yxatdan o‘tish</button>
+              <p class="helper-text">Ro‘yxatdan o‘tish muvaffaqiyatli yakunlangach, tizim avtomatik ravishda dashboardga yo‘naltiradi.</p>
+            </form>
+          </section>
+        </div>
+
+        <div id="statusBadge" class="status-badge auth-status-badge">
+          <span class="status-dot"></span>
+          <span id="statusText">Ulanmagan</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          AI Tarmoq Xavfsizligi
+        </div>
+        <h1>Network xavfsizligini zamonaviy panelda boshqaring.</h1>
+        <p class="hero-text">
+          NetSentinel AI real-time trafikni kuzatadi, anomal holatlarni topadi va xavfni bir necha soniyada ko‘rinadigan qiladi.
+        </p>
+        <div class="hero-pills">
+          <span>Jonli anomaliya kuzatuvi</span>
+          <span>SQLite asosida</span>
+          <span>CPU uchun mos AI</span>
+        </div>
+        <div class="hero-actions">
+          <a class="hero-link primary-link" href="#auth-panel-anchor">Boshlash</a>
+          <a class="hero-link secondary-link" href="#preview">UI preview ko‘rish</a>
+        </div>
+        <div class="hero-metrics">
+          <article class="metric-card">
+            <strong>24/7</strong>
+            <span>Monitoring</span>
+          </article>
+          <article class="metric-card">
+            <strong>3x</strong>
+            <span>Signal layers</span>
+          </article>
+          <article class="metric-card">
+            <strong>1 tap</strong>
+            <span>Threat simulation</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="visual-panel reveal">
+        <div class="network-orb">
+          <div class="orb-core">
+            <div class="orb-ring orb-ring-a"></div>
+            <div class="orb-ring orb-ring-b"></div>
+            <div class="orb-ring orb-ring-c"></div>
+            <div class="orb-node node-a">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M6 12h12M9 16h6" /></svg>
+            </div>
+            <div class="orb-node node-b">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M5 9l7-5 7 5M5 15l7 5 7-5" /></svg>
+            </div>
+            <div class="orb-node node-c">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10" /></svg>
+            </div>
+            <div class="pulse pulse-a"></div>
+            <div class="pulse pulse-b"></div>
+            <div class="pulse pulse-c"></div>
+          </div>
+        </div>
+
+        <div class="mini-panels">
+          <article class="mini-card">
+            <span class="mini-label">Protocol mesh</span>
+            <strong>TCP / UDP / HTTPS</strong>
+          </article>
+          <article class="mini-card">
+            <span class="mini-label">Traffic pulse</span>
+            <strong>Adaptive stream analysis</strong>
+          </article>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="trust-strip reveal">
+      <div class="trust-copy">
+        <span class="section-kicker">Xavfsizlik holati</span>
+        <h2>Bir sahifada monitoring, risk signal va operator access.</h2>
+      </div>
+      <div class="trust-grid">
+        <article class="trust-card">
+          <strong>Xulq-atvor AI</strong>
+          <span>Trafik patternlarini anomaliyaga qarab baholaydi.</span>
+        </article>
+        <article class="trust-card">
+          <strong>Jonli boshqaruv</strong>
+          <span>Simulyatsiya va retrain tugmalari bilan tez boshqaruv.</span>
+        </article>
+        <article class="trust-card">
+          <strong>Tezkor ogohlantirish</strong>
+          <span>Risk oshsa darhol alert stream yangilanadi.</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="capabilities" class="capabilities reveal">
+      <div class="section-heading">
+        <span class="section-kicker">Imkoniyatlar</span>
+        <h2>Oddiy forma emas, to‘liq security product hissi.</h2>
+        <p>Network mahsulotga o‘xshashi uchun men sahifaga chuqur vizual qatlamlar, mahsulot bloklari va aksentli harakatlar qo‘shdim.</p>
+      </div>
+
+      <div class="capability-grid">
+        <article class="feature-card feature-card-wide">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h4l2-4 4 8 2-4h4" /></svg>
+          </div>
+          <h3>Moslashuvchan trafik impulsi</h3>
+          <p>Oqim ko‘rsatkichlari, spike’lar va risk ranglari premium monitoring panel ko‘rinishida berildi.</p>
+          <div class="feature-bars">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon accent-blue">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 7v5c0 4.2 2.5 8.1 7 9 4.5-.9 7-4.8 7-9V7l-7-4Z" /></svg>
+          </div>
+          <h3>Himoyalangan kirish</h3>
+          <p>Kirish va ro‘yxatdan o‘tish qismi alohida premium auth card ichida joylashtirildi.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon accent-orange">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17h16M7 13h10M10 9h4" /></svg>
+          </div>
+          <h3>Protokol vizual tili</h3>
+          <p>Ikonlar, chiziqlar va ring kompozitsiyasi orqali network hissi kuchaytirildi.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon accent-red">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v8m0 4h.01M5.7 19h12.6c1.1 0 1.8-1.2 1.2-2.2L13.2 5.8c-.5-.9-1.9-.9-2.4 0L4.5 16.8c-.6 1 .1 2.2 1.2 2.2Z" /></svg>
+          </div>
+          <h3>Alert urg‘usi</h3>
+          <p>High-risk holatlar issiq ranglar va notification oqimi bilan ajratib ko‘rsatiladi.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="preview" class="preview-section reveal">
+      <div class="preview-panel">
+        <div class="preview-copy">
+          <span class="section-kicker">Ko‘rinish</span>
+          <h2>Operator ko‘radigan ekranlar bir xil dizayn tilida ishlaydi.</h2>
+          <p>
+            Hero, auth va dashboard bir-biridan uzilib qolmasligi uchun bir xil rang tizimi, bir xil radiuslar va bir xil yoritilgan glass layer ishlatildi.
+          </p>
+          <ul class="preview-points">
+            <li>Tarmoq hissi beruvchi signal node va orbital animatsiyalar</li>
+            <li>Register va login tab’lari bitta access panel ichida</li>
+            <li>Dashboard ochilganda landing bilan bir xil premium ko‘rinish saqlanadi</li>
+          </ul>
+        </div>
+
+        <div class="preview-stack">
+          <article class="preview-window preview-window-main">
+            <div class="window-top">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="window-grid">
+              <div class="window-line long"></div>
+              <div class="window-line medium"></div>
+              <div class="window-pulse"></div>
+              <div class="window-chart">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="preview-window preview-window-float">
+            <div class="preview-chip">Anomaliya +0.92</div>
+            <div class="preview-chip blue">Protokol HTTPS</div>
+            <div class="preview-chip orange">Manba 203.0.113.5</div>
+          </article>
+        </div>
+      </div>
+    </section>
+    
+    <section class="process-section reveal">
+      <div class="process-header">
+        <span class="section-kicker">Tahlil mexanizmi</span>
+        <h2>Tarmoq anomaliyalarini aniqlash jarayoni</h2>
+        <p>
+          NetSentinel AI kiruvchi tarmoq hodisalarini bosqichma-bosqich tahlil qiladi va standart xulq-atvordan og‘ishlarni aniqlash orqali
+          potentsial xavf holatlarini belgilaydi. Quyida ushbu jarayonning asosiy bosqichlari rasmiy shaklda bayon etilgan.
+        </p>
+      </div>
+
+      <div class="process-grid">
+        <article class="process-card">
+          <span class="process-step">01</span>
+          <h3>Ma'lumotlarni qabul qilish</h3>
+          <p>Tizim IP manzillar, protokol turi, paket hajmi, so‘rovlar oralig‘i va chastotasi kabi atributlarni qabul qiladi va ularni standart formatga keltiradi.</p>
+        </article>
+        <article class="process-card">
+          <span class="process-step">02</span>
+          <h3>Xususiyatlarni shakllantirish</h3>
+          <p>Qabul qilingan ma'lumotlardan analitik xususiyatlar hosil qilinadi. Masalan, vaqtga bog‘liq xulq-atvor, o‘tkazuvchanlik va paket oqimi ko‘rsatkichlari hisoblanadi.</p>
+        </article>
+        <article class="process-card">
+          <span class="process-step">03</span>
+          <h3>Model orqali baholash</h3>
+          <p>Isolation Forest va autoencoder modellarining natijalari birlashtirilib, har bir hodisa uchun anomaliya ehtimolini ifodalovchi integral ball shakllantiriladi.</p>
+        </article>
+        <article class="process-card">
+          <span class="process-step">04</span>
+          <h3>Qaror va ogohlantirish</h3>
+          <p>Agar yakuniy ball belgilangan chegaradan yuqori bo‘lsa, hodisa anomaliya sifatida qayd etiladi, dashboardga chiqariladi va ogohlantirishlar oqimiga yuboriladi.</p>
+        </article>
+      </div>
+    </section>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <div class="dashboard-topbar">
+        <div>
+          <h2>Xavf Operatsiyalari Paneli</h2>
+          <p>Jonli trafik, anomal signal va ogohlantirish oqimini bir joyda kuzating.</p>
+        </div>
+        <div class="controls">
+          <button id="simulateBtn" class="ghost-btn" type="button">Traffic simulatsiya</button>
+          <button id="trainBtn" class="ghost-btn" type="button">Modelni qayta o‘qitish</button>
+        </div>
+      </div>
+
+      <section class="grid stats">
+        <article class="card stat-card">
+          <h3>Jami anomaliyalar</h3>
+          <p id="totalAnomalies">0</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Eng shubhali IP</h3>
+          <p id="topIp">-</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Protokollar tarkibi</h3>
+          <p id="protocolSummary">-</p>
+        </article>
+      </section>
+
+      <section class="grid charts">
+        <article class="card chart-card">
+          <h3>Jonli trafik</h3>
+          <canvas id="liveTrafficChart"></canvas>
+        </article>
+        <article class="card chart-card">
+          <h3>Anomaliya vaqtlari</h3>
+          <canvas id="anomalyTimelineChart"></canvas>
+        </article>
+        <article class="card chart-card">
+          <h3>Trafik taqsimoti</h3>
+          <canvas id="protocolChart"></canvas>
+        </article>
+        <article class="card heatmap-card">
+          <h3>Xavf issiqlik xaritasi</h3>
+          <div id="heatmap" class="heatmap"></div>
+        </article>
+      </section>
+
+      <section class="grid lower">
+        <article class="card">
+          <h3>Eng shubhali IPlar</h3>
+          <ul id="suspiciousList"></ul>
+        </article>
+        <article class="card">
+          <h3>Ogohlantirishlar oqimi</h3>
+          <ul id="alertList"></ul>
+        </article>
+      </section>
+    </section>
+  </main>
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>

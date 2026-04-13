@@ -1,0 +1,16 @@
+"""Convenience launcher for the production FastAPI service."""
+
+from pathlib import Path
+import sys
+
+import uvicorn
+
+ROOT = Path(__file__).resolve().parent
+BACKEND_DIR = ROOT / "backend"
+
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
+
+
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
